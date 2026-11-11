@@ -70,6 +70,20 @@ def frequency_response(ir, fs, n_fft=None, peak_window=4096):
     freqs = np.fft.rfftfreq(n_fft, 1/fs)
     return freqs, 20 * np.log10(np.abs(H) + 1e-12)  # add a tiny number to avoid log(0) for silence
 
+# Added From Gemini to help with horizontal clock drift
+from scipy.signal import resample
+
+def correct_clock_drift(rec_signal, ideal_length, measured_length):
+    """
+    Resamples the recorded signal to match the exact expected length 
+    dictated by the hardware clock skew.
+    """
+    scaling_factor = ideal_length / measured_length
+    new_length = int(len(rec_signal) * scaling_factor)
+    return resample(rec_signal, new_length)
+
+# end insertion
+
 def gcc_phat_delay(sig,ref, fs, max_delay_s=None):
     """Time delay of a sig relative to a reference signal ref using the GCC-PHAT method. Returns delay in seconds.
     Positive result means that sig arrives later than ref """
