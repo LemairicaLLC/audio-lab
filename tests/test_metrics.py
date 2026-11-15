@@ -25,7 +25,7 @@ def test_gcc_phat_finds_delay():
     from audiolab.array_sim import fractional_delay
     ref = signals.white_noise(0.5, FS)
     sig = fractional_delay(ref, 0.00025, FS)  #  250us delay = 12 samples at 48kHz
-    assert abs(metrics.gcc_phat(sig, ref, FS, max_delay_s=0.01) - 0.00025) < 1e-5
+    assert abs(metrics.gcc_phat_delay(sig, ref, FS, max_delay_s=0.01) - 0.00025) < 1e-5
 
 def test_sweep_deconvolution_gives_flat_response():
     sweep, inverse = signals.log_sweep(20, 20000, 2.0, FS)

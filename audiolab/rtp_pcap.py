@@ -85,10 +85,10 @@ def read_rtp_pcap(path, dst_port=5004):
             off += incl_len
             if struct.unpack("!H", frame[12:14])[0] != 0x0800:  #not IPv4
                 continue
-            ih1 = (frame[14] & 0x0F) *4
+            ihl = (frame[14] & 0x0F) *4
             if frame[23] != 17:  #not UDP
                 continue
-            udp = 14 + ih1
+            udp = 14 + ihl
             if struct.unpack("!H", frame[udp + 2:udp + 4]) [0] != dst_port:
                 continue
             rtp = udp + 8

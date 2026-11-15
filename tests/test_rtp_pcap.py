@@ -8,7 +8,7 @@ def test_124_roundtrip():
     assert np.max(np.abs(x-y)) < 1e-6
 
 def test_pcap_roundtrip_with_loss(tmp_path):
-    x = signals.sine(1000, 0.1, 4800)   #4800 samples = 100 packets
+    x = signals.sine(1000, 0.1, 48000)   #4800 samples = 100 packets
     path = tmp_path / "test.pcap"
     rtp_pcap.write_rtp_pcap(path, x, drop_packets=[10,11,50])
     audio, stats = rtp_pcap.read_rtp_pcap(path)
